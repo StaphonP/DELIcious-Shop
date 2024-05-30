@@ -17,6 +17,17 @@ public class Topping {
     public String toString() {
         return "Topping{" +
                 "name='" + name + '\'' +
+                ", extra=" + extra +
+                ", isPremium=" + isPremium +
                 '}';
+    }
+
+    private boolean getIsPremium(Topping topping){
+        if(topping.isPremium){
+}
+        return true;
+    }
+    private boolean extra(){
+return extra;
     }
 }

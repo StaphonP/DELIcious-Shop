@@ -2,6 +2,7 @@ package com.pluralsight;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -13,31 +14,32 @@ public class UserInterface {
         System.out.println("\n(1)New Order (2) Exit");
         int command = input.nextInt();
         switch (command){
-            case 1 -> orderScreen();
+            case 1 -> orderScreen(new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
             case 2 -> exit();
+            default -> throw new InputMismatchException("Unexpected Value" + command);
         }
-
+   // input.close();
     }
-    public void orderScreen() {
+    public void orderScreen(List<Sandwich> sandwiches, List<Drink> drinks, List<Chips> chips) {
         Scanner input = new Scanner(System.in);
         System.out.println("\n(1) Add Sandwich\n(2) Add Drink\n(3) Add Chips\n(4) Checkout\n(5) Cancel Order");
-        int command = input.nextInt();
-        switch (command){
-            case 1 -> addSandwich();
-            case 2 -> addDrinks();
-            case 3 -> addChips();
-            case 4 -> checkOut();
-            case 5 -> exit();
-        }
+       int screenCommand = input.nextInt();
 
+        switch (screenCommand){
+            case 1 -> addSandwich(new ArrayList<>());
+            case 2 -> addDrinks(new ArrayList<>());
+            case 3 -> addChips(new ArrayList<>());
+            case 4 -> checkOut(sandwiches,drinks,chips);
+            case 5 -> exit();
+            default -> throw new InputMismatchException("Unexpected Value " + screenCommand);
+        }
+//input.close();
     }
 
-    private void checkOut() {
-        List<Sandwich> sandwiches = new ArrayList<>();
-        List<Drink> drinks = new ArrayList<>();
-        List<Chips> chips = new ArrayList<>();
-       String today = String.valueOf(LocalDateTime.now());
+    private void checkOut(List<Sandwich> sandwiches, List<Drink> drinks, List<Chips> chips) {
+LocalDateTime today = LocalDateTime.now();
         System.out.println("Your Order: ");
+
         System.out.println(today);
         System.out.println("Sandwiches:");
         for (Sandwich sandwich : sandwiches) {
@@ -51,15 +53,14 @@ public class UserInterface {
         for (Chips chip : chips) {
             System.out.println("- " + chip);
         }
+
     }
 
 
 
 
-    private void addDrinks() {
+    private void addDrinks(List<Drink> drinks) {
         Scanner input = new Scanner(System.in);
-        //Drinks ArrayList
-        List<Drink> drinks = new ArrayList<>();
 
         //Prompt user on what drink they would like to add
         System.out.println("What Drink would you like?\n (1)Sprite\n(2)Coke\n(3)Orange Fanta\n(4)Sweet Tea\n(5)Dr.Pepper\n(6)Water Bottle");
@@ -76,7 +77,7 @@ public class UserInterface {
             case 4 -> drinkChoice = "Sweet Tea";
             case 5 -> drinkChoice = "Dr.Pepper";
             case 6 -> drinkChoice = "Water Bottle";
-            default -> throw new IllegalStateException("Unexpected value: " + choice);
+            default -> throw new InputMismatchException("Unexpected value: " + choice);
         }
 
         //Prompt user on what size they would like
@@ -86,25 +87,23 @@ public class UserInterface {
         //Create variable that will change based on user Input
         String drinkSize;
 
-
         //Switch case, drinkSize will change based on user input
         switch (choice1){
             case 1 -> drinkSize = "Small";
             case 2 -> drinkSize = "Medium";
             case 3 -> drinkSize = "Large";
-            default -> throw new IllegalStateException("Unexpected Value: " +choice1);
+            default -> throw new InputMismatchException("Unexpected Value: " +choice1);
         }
-input.close();
-        //Create new Drink abject with user input and add it to the Drink arraylist
+        input.close();
+        //Create new Drink object with user input and add it to the Drink arraylist
         Drink drink = new Drink(drinkChoice, drinkSize);
             drinks.add(drink);
         System.out.println("Drink added.");
             //Back to orderScreen
-                orderScreen();
+                orderScreen(new ArrayList<>(), drinks, new ArrayList<>());
     }
 
-    private void addChips() {
-        List<Chips> chips = new ArrayList<>();
+    private void addChips( List<Chips> chips) {
         Scanner input = new Scanner(System.in);
         System.out.println("What chips would you like to add? \n(1)Lays\n(2)Doritos\n(3)Cheetos");
         int choice = input.nextInt();
@@ -113,15 +112,16 @@ input.close();
             case 1 -> chipChoice = "Lays";
             case 2 -> chipChoice = "Doritos";
             case 3 -> chipChoice = "Cheetos";
-            default -> throw new IllegalStateException("Unexpected Value: "+ choice);
+            default -> throw new InputMismatchException("Unexpected Value: "+ choice);
         }
         Chips chips1 = new Chips(chipChoice);
         chips.add(chips1);
         System.out.println("Chips added.");
-        orderScreen();
+      //  input.close();
+        orderScreen(new ArrayList<>(), new ArrayList<>(), chips);
     }
 //Method for adding a sandwich to the order
-    private void addSandwich() {
+    private void addSandwich(List<Sandwich> sandwiches ) {
         //Scanner
         Scanner input = new Scanner(System.in);
 
@@ -138,7 +138,7 @@ input.close();
             case 2 -> breadType = "Wheat";
             case 3 -> breadType = "Rye";
             case 4 -> breadType = "Wrap";
-            default -> throw new IllegalStateException("Unexpected value: " + command);
+            default -> throw new InputMismatchException("Unexpected value: " + command);
         }
 
         //Prompt user for sandwich size
@@ -153,12 +153,10 @@ input.close();
             case 1 -> sandwichSize = 4;
             case 2 -> sandwichSize = 8;
             case 3 -> sandwichSize = 12;
-            default -> throw new IllegalStateException("Unexpected value: " + command1);
+            default -> throw new InputMismatchException("Unexpected value: " + command1);
         }
 
-        //Toppings arrayList.
-        List<Topping> toppings = new ArrayList<>();
-
+            List<Topping> toppings = new ArrayList<>();
         //Prompt user for meat selection
         System.out.println("\nWhat meat would you like?\n-Steak\n-Ham\n-Salami\n-Roast Beef\n-Chicken\n-Bacon");
         System.out.println("4inch - $1.00, 8inch - $2.00, 12inch - $3.00"); //Print out price below
@@ -189,7 +187,7 @@ input.close();
             case 3 -> typeCheese = "cheddar";
             case 4 -> typeCheese = "Swiss";
             case 5 -> typeCheese = "No Cheese";
-            default -> throw new IllegalStateException("Unexpected value: " + cheeseType);
+            default -> throw new InputMismatchException("Unexpected value: " + cheeseType);
         }
 
         //Ask the user if they would like extra
@@ -274,11 +272,10 @@ input.close();
         String toasted = input.next();
         boolean isToasted = toasted.equalsIgnoreCase("Y");
         Sandwich sandwich1 = new Sandwich(sandwichSize,breadType,isToasted,toppings);
-     List<Sandwich> sandwiches = new ArrayList<>();
      sandwiches.add(sandwich1);
         System.out.println("Sandwich added!");
        // input.close();
-     orderScreen();
+        orderScreen(sandwiches, new ArrayList<>(), new ArrayList<>());
     }
 
 
