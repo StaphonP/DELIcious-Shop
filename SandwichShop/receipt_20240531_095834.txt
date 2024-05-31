@@ -1,0 +1,8 @@
+2024-05-31T09:58:34.204857100
+Sandwich: 
+Size - 12
+Bread - Wheat
+Toppings -[ham, Provolone, lettuce, peppers, onions, mayo, mustard]Toasted - true
+Medium Orange Fanta
+Doritos
+12.0

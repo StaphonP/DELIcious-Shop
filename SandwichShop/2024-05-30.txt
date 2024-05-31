@@ -1,9 +1,0 @@
-2024-05-30T20:53:10.302357500
-
-Drink{name='Coke', size='Large'}
-Chips{name='Doritos'}
-4.52024-05-30T20:56:25.897083900
-
-Drink{name='Orange Fanta', size='Medium'}
-Chips{name='Cheetos'}Chips{name='Doritos'}
-5.5

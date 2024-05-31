@@ -69,6 +69,8 @@ public class UserInterface {
         }
      //   input.close();
     }
+
+
 //CHECKOUT METHOD
     private void checkOut(List<Sandwich> sandwiches, List<Drink> drinks, List<Chips> chips) {
         //ORDER ID IS TIME AND DATE
@@ -97,6 +99,7 @@ Order order1 = new Order(today,sandwiches,drinks,chips);
         //PRINT OUT COST
       double cost =  order1.getTotalCost(sandwiches,drinks,chips);
         System.out.println("Total: " + cost);
+        //ORDER METHOD THAT CREATES RECEIPT FILE
     order1.printReceipt(sandwiches,drinks,chips);
 
     }
@@ -176,7 +179,7 @@ Order order1 = new Order(today,sandwiches,drinks,chips);
 
 
     //ADD CHIP METHOD
-    private void addChips(List<Sandwich> sandwiches, List<Drink> drinks, List<Chips> chips) {
+    private void addChips(List<Sandwich> sandwiches, List<Drink> drinks, List<Chips> chips) throws RuntimeException {
         Scanner input = new Scanner(System.in);
         //PROMPT USER ON WHICH CHIPS
         System.out.println("What chips would you like to add? \n(1)Lays\n(2)Doritos\n(3)Cheetos");
@@ -187,7 +190,8 @@ Order order1 = new Order(today,sandwiches,drinks,chips);
             case 1 -> chipChoice = "Lays";
             case 2 -> chipChoice = "Doritos";
             case 3 -> chipChoice = "Cheetos";
-            default -> throw new InputMismatchException("Unexpected Value: "+ choice);
+            default -> throw new InputMismatchException("Unexpected Value " + choice);
+
         }
         //NEW CHIP OBJECT
         Chips chips1 = new Chips(chipChoice);
@@ -197,11 +201,6 @@ Order order1 = new Order(today,sandwiches,drinks,chips);
        // input.close();
         //BACK TO ORDERSCREEN
         orderScreen(sandwiches,drinks,chips);
-    }
-
-    //Method for checking if the cart is empty
-    private boolean isCartEmpty(List<Sandwich> sandwiches, List<Drink> drinks, List<Chips> chips) {
-        return sandwiches.isEmpty() && drinks.isEmpty() && chips.isEmpty();
     }
 
 
@@ -377,55 +376,3 @@ Order order1 = new Order(today,sandwiches,drinks,chips);
     }
 }
 
-/* while (true) {
-            String choice = input.nextLine();
-            if (choice.equalsIgnoreCase("done")) {
-                break;
-            }
-            try {
-                int toppingChoice = Integer.parseInt(choice);
-                switch (toppingChoice) {
-                    case 1:
-                        Topping lettuce = new Topping("lettuce",false,false);
-                        toppings.add(lettuce);
-                        break;
-                    case 2:
-                        Topping peppers = new Topping("peppers",false,false);
-                        toppings.add(peppers);
-                        break;
-                    case 3:
-                        Topping onions = new Topping("onions",false,false);
-                        toppings.add(onions);
-                        break;
-                    case 4:
-                        Topping tomatoes = new Topping("tomatoes",false,false);
-                        toppings.add(tomatoes);
-                        break;
-                    case 5:
-                        Topping jalepenos = new Topping("jalepenos",false,false);
-                        toppings.add(jalepenos);
-                        break;
-                    case 6:
-                        Topping cucumbers = new Topping("cucumbers",false,false);
-                        toppings.add(cucumbers);
-                        break;
-                    case 7:
-                        Topping pickles = new Topping("pickles",false,false);
-                        toppings.add(pickles);
-                        break;
-                    case 8:
-                        Topping guacamole = new Topping("guacamole",false,false);
-                        toppings.add(guacamole);
-                        break;
-                    case 9:
-                        Topping mushrooms = new Topping("mushrooms",false,false);
-                        toppings.add(mushrooms);
-                        break;
-                    default:
-                        System.out.println("Invalid choice. Please enter a number between 1 and 9 or type 'done' to finish.");
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid choice. Please enter a number between 1 and 9 or type 'done' to finish.");
-
-
- */

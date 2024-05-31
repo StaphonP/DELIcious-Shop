@@ -23,13 +23,6 @@ public class Sandwich {
                 "Toasted - " + toasted;
     }
 
-    private void getIsPremium(){
-
-    }
-
-    private void addTopping(){
-
-    }
 
     public int getSize() {
         return size;

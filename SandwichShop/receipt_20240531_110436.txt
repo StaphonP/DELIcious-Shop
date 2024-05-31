@@ -1,0 +1,8 @@
+2024-05-31T11:04:36.407095700
+Sandwich: 
+Size - 8
+Bread - Wheat
+Toppings -[steak, Provolone, lettuce, cucumbers, mayo]Toasted - true
+Large Orange Fanta
+Lays
+11.5

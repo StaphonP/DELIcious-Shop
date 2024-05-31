@@ -44,9 +44,7 @@ public class Order {
 private void addChips(Chips chip){
 chips.add(chip);
 }
-private void displayOrder(){
 
-}
 public float getTotalCost(List<Sandwich> sandwiches, List<Drink> drinks, List<Chips> chips) {
     float totalCost = 0;
     for (Sandwich sandwich : sandwiches) {
