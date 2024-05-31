@@ -2,12 +2,14 @@ package com.pluralsight;
 
 public class Chips {
     private String name;
-    private String size;
+
 
     public Chips(String name) {
         this.name = name;
-        this.size = size;
+
     }
+
+
 
     public String getName() {
         return name;
@@ -17,11 +19,8 @@ public class Chips {
         this.name = name;
     }
 
-    public String getSize() {
-        return size;
-    }
-
-    public void setSize(String size) {
-        this.size = size;
+    @Override
+    public String toString() {
+        return  name;
     }
 }

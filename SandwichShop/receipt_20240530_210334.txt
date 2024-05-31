@@ -1,0 +1,5 @@
+2024-05-30T21:03:34.718267500
+
+Drink{name='Orange Fanta', size='Medium'}Drink{name='Sweet Tea', size='Large'}
+Chips{name='Doritos'}Chips{name='Doritos'}
+8.5

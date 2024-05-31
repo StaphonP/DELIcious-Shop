@@ -8,58 +8,102 @@ import java.util.Scanner;
 
 public class UserInterface {
 
+
+    public void init(){
+       homeScreen();
+    }
+//HOME SCREEN METHOD
     public void homeScreen(){
         Scanner input = new Scanner(System.in);
         System.out.println("\n----------Welcome to DELI-cious Sandwich Shop----------\n");
+        //Prompt user
         System.out.println("\n(1)New Order (2) Exit");
         int command = input.nextInt();
+        //switch case to orderscreen or to exit the application
         switch (command){
-            case 1 -> orderScreen(new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
-            case 2 -> exit();
+            case 1 -> {
+                orderScreen(new ArrayList<>(),new ArrayList<>(),new ArrayList<>());
+                break;
+            }
+            case 2 -> {
+                exit();
+                return;
+            }
             default -> throw new InputMismatchException("Unexpected Value" + command);
         }
-   // input.close();
+  // input.close();
     }
+    //ORDER SCREEN METHOD
     public void orderScreen(List<Sandwich> sandwiches, List<Drink> drinks, List<Chips> chips) {
         Scanner input = new Scanner(System.in);
+        //PROMPT USER
         System.out.println("\n(1) Add Sandwich\n(2) Add Drink\n(3) Add Chips\n(4) Checkout\n(5) Cancel Order");
        int screenCommand = input.nextInt();
-
+       input.nextLine();
+//SWITCH CASE FOR EACH ITEM THAT YOU CAN ADD, PLUS CHECKOUT OPTION
         switch (screenCommand){
-            case 1 -> addSandwich(new ArrayList<>());
-            case 2 -> addDrinks(new ArrayList<>());
-            case 3 -> addChips(new ArrayList<>());
-            case 4 -> checkOut(sandwiches,drinks,chips);
-            case 5 -> exit();
-            default -> throw new InputMismatchException("Unexpected Value " + screenCommand);
-        }
-//input.close();
-    }
+            case 1 -> {
+                addSandwich(sandwiches,drinks,chips);
+                break;
+            }
+            case 2 -> {
+                addDrinks(sandwiches,drinks,chips);
+                break;
+            }
+            case 3 -> {
+                addChips(sandwiches,drinks,chips);
+                break;
+            }
+            case 4 -> {
+                checkOut(sandwiches,drinks,chips);
+                break;
+            }
+            case 5 -> {
+                exit();
+                return;
+            }
 
+            default -> {
+                throw new InputMismatchException("Unexpected Value " + screenCommand);
+            }
+        }
+     //   input.close();
+    }
+//CHECKOUT METHOD
     private void checkOut(List<Sandwich> sandwiches, List<Drink> drinks, List<Chips> chips) {
-LocalDateTime today = LocalDateTime.now();
+        //ORDER ID IS TIME AND DATE
+String today = String.valueOf(LocalDateTime.now());
+//CREATE NEW ORDER OBJECT
+Order order1 = new Order(today,sandwiches,drinks,chips);
+//DISPLAY ORDER
         System.out.println("Your Order: ");
 
         System.out.println(today);
         System.out.println("Sandwiches:");
+        //LOOP THROUGH SANDWICHES ARRAY AND PRINT OUT EVERY SANDWICH
         for (Sandwich sandwich : sandwiches) {
             System.out.println("- " + sandwich);
         }
+        //LOOP THROUGH DRINKS ARRAY AND PRINT OUT EVERY DRINK
         System.out.println("Drinks:");
         for (Drink drink : drinks) {
             System.out.println("- " + drink);
         }
+        //LOOP THROUGH CHIPS ARRAY AND PRINT OUT EVERY CHIP
         System.out.println("Chips:");
         for (Chips chip : chips) {
             System.out.println("- " + chip);
         }
+        //PRINT OUT COST
+      double cost =  order1.getTotalCost(sandwiches,drinks,chips);
+        System.out.println("Total: " + cost);
+    order1.printReceipt(sandwiches,drinks,chips);
 
     }
 
 
-
-
-    private void addDrinks(List<Drink> drinks) {
+        //ADD DRINK METHOD
+    private void addDrinks(List<Sandwich> sandwiches, List<Drink> drinks, List<Chips> chips) {
         Scanner input = new Scanner(System.in);
 
         //Prompt user on what drink they would like to add
@@ -71,12 +115,30 @@ LocalDateTime today = LocalDateTime.now();
 
         //Switch case, depending on user input "drinkChoice" will change.
         switch (choice){
-            case 1 ->  drinkChoice = "Sprite";
-            case 2 -> drinkChoice = "Coke";
-            case 3 -> drinkChoice = "Orange Fanta";
-            case 4 -> drinkChoice = "Sweet Tea";
-            case 5 -> drinkChoice = "Dr.Pepper";
-            case 6 -> drinkChoice = "Water Bottle";
+            case 1 -> {
+                drinkChoice = "Sprite";
+                break;
+            }
+            case 2 -> {
+                drinkChoice = "Coke";
+                break;
+            }
+            case 3 -> {
+                drinkChoice = "Orange Fanta";
+                break;
+            }
+            case 4 -> {
+                drinkChoice = "Sweet Tea";
+                break;
+            }
+            case 5 -> {
+                drinkChoice = "Dr.Pepper";
+                break;
+            }
+            case 6 -> {
+                drinkChoice = "Water Bottle";
+                break;
+            }
             default -> throw new InputMismatchException("Unexpected value: " + choice);
         }
 
@@ -89,39 +151,63 @@ LocalDateTime today = LocalDateTime.now();
 
         //Switch case, drinkSize will change based on user input
         switch (choice1){
-            case 1 -> drinkSize = "Small";
-            case 2 -> drinkSize = "Medium";
-            case 3 -> drinkSize = "Large";
+            case 1 -> {
+                drinkSize = "Small";
+                break;
+            }
+            case 2 -> {
+                drinkSize = "Medium";
+                break;
+            }
+            case 3 -> {
+                drinkSize = "Large";
+                break;
+            }
             default -> throw new InputMismatchException("Unexpected Value: " +choice1);
         }
-        input.close();
+       // input.close();
         //Create new Drink object with user input and add it to the Drink arraylist
         Drink drink = new Drink(drinkChoice, drinkSize);
             drinks.add(drink);
         System.out.println("Drink added.");
             //Back to orderScreen
-                orderScreen(new ArrayList<>(), drinks, new ArrayList<>());
+                orderScreen(sandwiches,drinks,chips);
     }
 
-    private void addChips( List<Chips> chips) {
+
+    //ADD CHIP METHOD
+    private void addChips(List<Sandwich> sandwiches, List<Drink> drinks, List<Chips> chips) {
         Scanner input = new Scanner(System.in);
+        //PROMPT USER ON WHICH CHIPS
         System.out.println("What chips would you like to add? \n(1)Lays\n(2)Doritos\n(3)Cheetos");
         int choice = input.nextInt();
         String chipChoice;
+        //SWITCH CASE FOR EACH TYPE OF CHIP, VARIABLE CHIPCHOICE CHANGES DEPENDING ON THE USER INPUT
         switch (choice){
             case 1 -> chipChoice = "Lays";
             case 2 -> chipChoice = "Doritos";
             case 3 -> chipChoice = "Cheetos";
             default -> throw new InputMismatchException("Unexpected Value: "+ choice);
         }
+        //NEW CHIP OBJECT
         Chips chips1 = new Chips(chipChoice);
+        //ADD TO CHIPS ARRAYLIST
         chips.add(chips1);
         System.out.println("Chips added.");
-      //  input.close();
-        orderScreen(new ArrayList<>(), new ArrayList<>(), chips);
+       // input.close();
+        //BACK TO ORDERSCREEN
+        orderScreen(sandwiches,drinks,chips);
     }
+
+    //Method for checking if the cart is empty
+    private boolean isCartEmpty(List<Sandwich> sandwiches, List<Drink> drinks, List<Chips> chips) {
+        return sandwiches.isEmpty() && drinks.isEmpty() && chips.isEmpty();
+    }
+
+
+
 //Method for adding a sandwich to the order
-    private void addSandwich(List<Sandwich> sandwiches ) {
+    private void addSandwich(List<Sandwich> sandwiches, List<Drink> drinks, List<Chips> chips ) {
         //Scanner
         Scanner input = new Scanner(System.in);
 
@@ -220,7 +306,7 @@ LocalDateTime today = LocalDateTime.now();
         String toppingChoice;
         do {
             System.out.print("Add a topping: ");
-            toppingChoice = input.nextLine();
+            toppingChoice = input.next();
             if (!toppingChoice.equalsIgnoreCase("done")) {
                 Topping newTopping = new Topping(toppingChoice,false,false);
                 toppings.add(newTopping);
@@ -251,7 +337,7 @@ LocalDateTime today = LocalDateTime.now();
         String sauceChoice;
         do {
             System.out.print("Add a sauce: ");
-            sauceChoice = input.nextLine();
+            sauceChoice = input.next();
             if (!sauceChoice.equalsIgnoreCase("done")) {
                 Topping newSauce = new Topping(sauceChoice,false,false);
                 toppings.add(newSauce);
@@ -275,7 +361,7 @@ LocalDateTime today = LocalDateTime.now();
      sandwiches.add(sandwich1);
         System.out.println("Sandwich added!");
        // input.close();
-        orderScreen(sandwiches, new ArrayList<>(), new ArrayList<>());
+        orderScreen(sandwiches,drinks,chips);
     }
 
 

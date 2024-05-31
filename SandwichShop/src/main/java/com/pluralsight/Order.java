@@ -1,29 +1,38 @@
 package com.pluralsight;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Order {
-    private String orderId;
-   private List<Sandwich> sandwiches;
-   private List<Drink> drinks;
-  private List<Chips> chips;
+    public static String orderId;
+   public static List<Sandwich> sandwiches;
+   public static List<Drink> drinks;
+  public static List<Chips> chips;
 
     public Order(String orderId, List<Sandwich> sandwiches, List<Drink> drinks, List<Chips> chips) {
         this.orderId = orderId;
-        this.sandwiches = sandwiches;
-        this.drinks = drinks;
-        this.chips = chips;
+        this.sandwiches = new ArrayList<>();
+        this.drinks = new ArrayList<>();
+        this.chips = new ArrayList<>();
     }
 
     @Override
     public String toString() {
-        return "Order{" +
-                "orderId='" + orderId + '\'' +
-                ", sandwiches=" + sandwiches +
-                ", drinks=" + drinks +
-                ", chips=" + chips +
-                '}';
+        return "\nOrder # " + orderId +
+                "\n Sandwiches- "
+                + sandwiches +
+                "\nDrinks- "
+                + drinks +
+                "\nChips- " +
+                chips;
+
     }
 
     public void addSandwich(Sandwich sandwich){
@@ -38,8 +47,8 @@ chips.add(chip);
 private void displayOrder(){
 
 }
-private double getTotalCost(List<Sandwich> sandwiches, List<Drink> drinks, List<Chips> chips) {
-    double totalCost = 0;
+public float getTotalCost(List<Sandwich> sandwiches, List<Drink> drinks, List<Chips> chips) {
+    float totalCost = 0;
     for (Sandwich sandwich : sandwiches) {
         int size = sandwich.getSize();
         if (size == 4) {
@@ -63,9 +72,40 @@ private double getTotalCost(List<Sandwich> sandwiches, List<Drink> drinks, List<
         }
     }
     for(Chips chip: chips){
-
+    totalCost +=  1.50;
+    }
+    return totalCost;
+}
+public void printReceipt(List<Sandwich> sandwiches, List<Drink> drinks, List<Chips> chips){
+LocalDateTime today = LocalDateTime.now();
+    try {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(receiptId(today),true));
+        writer.write(String.valueOf(today));
+        writer.newLine();
+      for(Sandwich sandwich : sandwiches) {
+          writer.write(String.valueOf(sandwich));
+      }
+      writer.newLine();
+      for (Drink drink : drinks){
+          writer.write(String.valueOf(drink));
+      }
+      writer.newLine();
+      for(Chips chip : chips){
+          writer.write(String.valueOf(chip));
+      }
+      writer.newLine();
+       double costs = getTotalCost(sandwiches,drinks,chips);
+      writer.write(String.valueOf(costs));
+        writer.close();
+    } catch (IOException e) {
+        throw new RuntimeException(e);
     }
 }
+
+public String receiptId(LocalDateTime dateTime){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
+        return "receipt_" + dateTime.format(formatter) + ".txt";
+    }
 
     public String getOrderId () {
         return orderId;

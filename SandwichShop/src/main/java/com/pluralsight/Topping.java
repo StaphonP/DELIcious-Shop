@@ -15,11 +15,13 @@ public class Topping {
 
     @Override
     public String toString() {
-        return "Topping{" +
+        return name;
+        /*"Topping{" +
                 "name='" + name + '\'' +
                 ", extra=" + extra +
                 ", isPremium=" + isPremium +
                 '}';
+                */
     }
 
     private boolean getIsPremium(Topping topping){

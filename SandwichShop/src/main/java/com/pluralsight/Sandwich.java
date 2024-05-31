@@ -14,8 +14,17 @@ public class Sandwich {
         this.toasted = toasted;
         this.toppings = toppings;
     }
+
+    @Override
+    public String toString() {
+        return "Sandwich: \nSize - " + size +
+                "\nBread - " + bread +
+                "\nToppings -" + toppings +
+                "Toasted - " + toasted;
+    }
+
     private void getIsPremium(){
-        if(toppings.contains())
+
     }
 
     private void addTopping(){

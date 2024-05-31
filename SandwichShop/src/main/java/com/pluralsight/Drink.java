@@ -17,4 +17,8 @@ public class Drink {
         this.size = size;
     }
 
+    @Override
+    public String toString() {
+        return size + " " + name;
+    }
 }
